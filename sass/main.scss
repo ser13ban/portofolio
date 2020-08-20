@@ -1,0 +1,686 @@
+/*
+$main-color: #55c57a;
+$main-color-dark: #28b485;
+$main-color-light:  #7ed56f;
+*/
+$main-color: #ff7700;
+$main-color-dark: #ff7700;
+$main-color-light:  #ffb900;
+
+$sec-color-light: #7ed56f;
+$sec-color-dark: #28b485;
+
+$trd-color-light: #2998ff;
+$trd-color-dark: #5643fa;
+
+$white-color: #fff;
+$color-black: rgb(0,0,0);
+$color-gray: #eee;
+$main-font-size: 1.6rem;
+
+/*  ALL THE UTILITIES*/
+.u-text-align{  text-align: center;}
+
+.u-head-padding-big{  padding-bottom: 8rem;}
+.u-head-padding-mediun{  padding-bottom: 4rem;}
+.u-head-padding-small{  padding-bottom: 2rem;}
+
+.u-border { border: 2px solid black;}
+
+/* MIXINS*/
+// MEDIA QUERY MANAGER
+/*
+0 - 600px:      Phone
+600 - 900px:    Tablet portrait
+900 - 1200px:   Tablet landscape
+[1200 - 1800] is where our normal styles apply
+1800px + :      Big desktop
+
+$breakpoint arguement choices:
+- phone
+- tab-port
+- tab-land
+- big-desktop
+
+ORDER: Base + typography > general layout + grid > page layout > components
+
+1em = 16px
+*/
+@mixin respond($breakpoint) {
+    @if $breakpoint == phone {
+        @media only screen and (max-width: 37.5em) { @content };    //600px
+    }
+    @if $breakpoint == tab-port {
+        @media only screen and (max-width: 56.25em) { @content };     //900px
+    }
+    @if $breakpoint == tab-land {
+        @media only screen and (max-width: 75em) { @content };    //1200px
+    }
+    @if $breakpoint == big-desktop {
+        @media only screen and (min-width: 112.5em) { @content };    //1800
+    }
+}
+
+/* ALL TEH ANIMATIONS ARE ON THE TOP*/
+@keyframes moveInRight{
+    0%{
+        opacity: 0;
+        transform: translateX(+10rem);
+    }
+    80%{
+        transform: translateX(-1rem)
+    }
+    100%{
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+@keyframes moveInBottom{
+    0%{
+        opacity: 0;
+        transform: translatey(+10rem);
+    }
+    100%{
+        opacity: 1;
+        transform: translatey(0);
+    }
+}
+@keyframes moveInLeft{
+    0%{
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+    80%{
+        transform: translateX(2rem)
+    }
+    100%{
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+
+*,
+*::after,
+*::before{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html{
+    font-size: 62.5%;
+    @include respond(tab-land) { // width < 1200?
+        font-size: 56.25%; //1 rem = 9px, 9/16 = 50%
+    }
+
+    @include respond(tab-port) { // width < 900?
+        font-size: 50%; //1 rem = 8px, 8/16 = 50%
+    }
+    
+    @include respond(big-desktop) {
+        font-size: 75%; //1rem = 12, 12/16
+    }
+}
+body{
+    padding: 3rem;
+    font-family: 'Lato',sans-serif;
+    font-weight: 400;
+    font-size: 1.6rem;
+    line-height: 1.7;
+    color: #777;
+}
+
+//HEADER
+.header{
+    height: 95vh;
+    background-image: linear-gradient(to right bottom, rgba($main-color-light,.7),rgba($main-color-dark,.7)
+    ) ,url(../img/hero_.me.jpg);
+    background-size: cover;
+    background-position: center;
+    z-index: 100;
+    /*
+   clip-path: polygon(50% 0,100% 50%,50% 100%,0 50%); this is a hexagon trimig option
+      */
+    clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+    position: relative;
+    &__logo-box{
+        position: absolute;
+        top: 4rem;
+        left: 4rem;
+    }
+    &__logo{
+        height: 5rem;
+    }
+    &__text-box{
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+    
+        text-align: center;
+    }
+}
+
+.heading-primary{
+    color: $white-color;
+    text-transform: uppercase;
+    display: block;
+    backface-visibility: hidden;
+
+    margin-bottom: 4rem;
+
+    &--main{
+        display: block;
+        font-size: 6rem;
+        font-weight: 700;
+        letter-spacing: 2rem;
+    
+        backface-visibility: hidden;
+    
+        animation-name: moveInLeft;
+        animation-duration: 1s;
+    }
+    &--sub{
+        display: block;
+        font-size: 2rem;
+        font-weight: 700;
+        letter-spacing: 2.1rem;
+        backface-visibility: hidden;
+    
+        animation-name: moveInRight;
+        animation-duration: 1s;
+    }
+    
+}
+
+.btn{
+    &-inline{
+        display: inline-block;
+    }
+    &, &:link, &:visited{
+        text-decoration: none;
+        text-transform: uppercase;
+        padding: 1rem 4rem;
+        border-radius: 10rem;
+        transition: all .3s;
+
+        //change for the <button> selector
+        border: none;
+        cursor: pointer;
+    }
+    &:hover, &:focus{
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba($color-black,0.2);
+    }
+    &:active, &:focus{
+        outline: none;
+        transform: translateY(-1px);
+        box-shadow: 0 .5rem 1rem rgba($color-black,0.2);
+    
+    }
+    &--white{
+        background-color: white;
+        color: #777;
+    }
+    &--orange{
+        background-image: linear-gradient(to bottom right, $main-color-light, $main-color-dark);
+        color: $white-color;
+    }
+    &--animated {
+        backface-visibility: hidden;
+    
+        animation-name: moveInBottom;
+        animation-duration: 1s;
+    }
+
+}
+//end of header
+
+//NAVIGATION
+.navigation{
+    &__checkbox{
+        display: none;
+    }
+    &__button{
+        background-color: white;
+        height: 7rem;
+        width: 7rem;
+        position: fixed;
+        top: 6rem;
+        right: 6rem;
+        border-radius: 50%;
+        z-index: 888000;
+        //border: 2px solid black;
+        text-align: center;
+        cursor: pointer;
+        
+    }
+    &__background{
+        height: 5rem;
+        width: 5rem;
+        position: fixed;
+        top: 7rem;
+        right: 7rem;
+        //border-radius: 50%;
+        background-image: linear-gradient(to left,$main-color-light,$main-color-dark);
+        z-index: 1000;
+        box-shadow: 0 1rem 3rem rgba($color: #000000, $alpha: .1);
+
+        transition: transform .8s;
+        /*
+        //this is what I need to happen after the button is pressed
+        height: 100%;
+        width: 25%;
+        top: 0;
+        right: 0;
+        */
+    }
+    &__nav{
+        height: 100vh;
+        width: 25%;
+        position: fixed;
+        top: 0;
+        right: 0;
+        z-index: 3000;
+
+        opacity: 0;
+        width: 0;
+        transition: opacity .8s;
+    }
+    &__list{
+        width: 100%;
+        position: absolute;
+        top: 50%;
+        right: 0;
+        transform: translate(0,-50%);
+        list-style: none;
+        text-align: center;
+    }
+    &__item{
+        margin: 1rem;
+    }
+    &__link{
+        &:link,&:visited{
+            display: inline-block;
+            font-size: 3rem;
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            text-transform: uppercase;
+            background-image: linear-gradient(120deg, transparent 0%,transparent 50%, white 50%);
+            background-size: 240%;
+            transition: all .6s;
+        }
+        &:hover,&:active{
+            background-position: 100%;
+            color: $main-color;
+        }
+    
+    }
+
+    //fucntionality (checkbox hack)
+    &__checkbox:checked ~ &__background{
+        height: 100%;
+        width: 25%;
+        top: 0;
+        right: 0;
+    }
+    
+    &__checkbox:checked ~ &__nav {
+        opacity: 1;
+        width: 25%;
+    }
+    
+    //icon
+    &__icon{
+        position: relative;
+        margin-top: 3.2rem;
+        &,
+        &::after,
+        &::before{
+            width: 3rem;
+            height: 2px;
+            background-color: #333136;
+            display: inline-block;
+        }
+        &::after,
+        &::before{
+           content: "";
+           position: absolute;
+           right: 0;
+           transition: all .2s;
+        }
+        &::before { top: 0.8rem; }
+        &::after { top: -0.8rem; }
+
+    }
+    &__button:hover &__icon::before{ top: 1rem; }
+    &__button:hover &__icon::after{ top: -1rem;}   
+    
+    &__checkbox:checked + &__button &__icon{
+        //opacity: 0;
+        background-color: transparent;
+    }
+    &__checkbox:checked + &__button &__icon::before{
+        transform: rotate(135deg);
+        top: 0;
+    }
+    &__checkbox:checked + &__button &__icon::after{
+        transform: rotate(-135deg);
+        top: 0;
+    }
+
+}
+
+/* ABOUT ME */
+.about-me{
+    background-color: #f1f1f1;
+    padding: 25rem;
+    padding-bottom: 45rem;
+    margin-top: -25rem;
+    clip-path: polygon(0 0, 100% 0, 100% 75%, 0 100%);
+    position: relative;
+    z-index: 99;
+}
+.heading-secondary{
+    font-size: 3.5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    display: inline-block;
+   
+    letter-spacing: 2px;
+    transition: all .2s;
+   
+    &--1{
+        background-image: linear-gradient(to right,$main-color-light,$main-color-dark);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+    &--2{
+        background-image: linear-gradient(to right,$white-color,$color-gray);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+    &:hover{
+        transform: skewY(2deg);
+        text-shadow: .5rem 1rem 3rem black;
+    }
+}
+.row{
+    display: flex;
+}
+.col-1-of-2{
+    flex: 1;
+    &:not(:last-child){
+        margin-right: 14rem;
+    }
+}
+.header-trd{
+    font-size: 2rem;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.composition{
+    position: relative;
+    &__photo {
+        z-index: 10;
+        width: 50%;
+        box-shadow: 0 1.5rem 4rem rgba( $color-black,0.8);
+        border-radius: 2px;
+        position: absolute;
+        transition: all 0.2s;
+        outline-offset: 2rem;
+
+        &--p1{
+            left: 0;
+            top: -2rem;
+        }
+        &--p2{
+            right: 3rem;
+            top: 4rem;
+        }
+        &--p3{
+            left: 4rem;
+            top: 14rem;
+        }
+
+        &:hover{
+            outline: 1.5rem solid $main-color;
+            transform: scale(1.1);
+            box-shadow: 0 2.5rem 4rem rgba($color-black,0.8);
+            z-index: 20;
+        }
+    }
+    &:hover &__photo:not(:hover){
+        transform: scale(0.8);
+    }
+}
+//end of about me
+
+//SECTION FEATURES:
+.features{
+    background-color: $main-color;
+    padding: 25rem 10rem 45rem 10rem;
+    //padding: 25rem;
+    margin-top: -32rem;
+    clip-path: polygon(0 0, 100% 0, 100% 75%, 0 100%);
+   // padding-bottom: 45rem;
+}
+
+.feature{
+    border-radius: 1rem;
+    width: 24rem;
+    height: 40rem;
+    background-color: $color-gray;
+    box-shadow: 0 1.5rem 4rem rgba( $color-black,0.8);
+    transition: all .2s;
+    &:hover{
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba($color-black,0.2);
+    }
+}
+.feature__logo{
+    padding-top: 4rem;
+    padding-bottom: 2rem;
+    display: block;
+    width: 15rem;
+    margin: 0 auto;
+    
+}
+.feature__text{
+    text-align: center;
+    padding: 0 2rem 2rem 2rem;
+}
+//end of features
+
+//projects
+.projects{
+    padding: 30rem 10rem 15rem 10rem;
+    //padding-top: 45rem;
+    background-color: $color-gray;
+    margin-top: -35rem;
+
+    &--button{
+        margin-top: 10rem;
+        position: relative;
+        text-align: center;
+    }
+    
+}
+.card{
+
+    perspective: 150rem;
+    -moz-perspective: 150rem;
+    position: relative;
+    height: 50rem;
+    width: 100%;
+    text-align: center;
+
+    &__side{
+        box-shadow: 0 1.5rem 4rem rgba( $color-black,0.8);
+         backface-visibility: hidden;
+         height: 50rem;
+         width: 100%;
+         transition: all .5s ease;
+         position: absolute;
+         top: 0;
+         left: 0;
+
+         &--front{
+            background-color: white;
+            background-size:100% 100%;
+            background-repeat: no-repeat;
+            &-1{
+                background-image: url(../img/project-1.jpg);
+            }
+            &-2{
+                background-image: url(../img/project-2.jpg);
+            }
+            &-3{
+                background-image: url(../img/project-3.jpg);
+            }
+            
+        }
+        &--back{
+            padding-top: 45%;
+            transform: rotateY(180deg);
+            &-1 {
+                background-image: linear-gradient(to bottom right,$sec-color-light,$sec-color-dark);
+            }
+            &-2 {
+                background-image: linear-gradient(to bottom right, $main-color-light, $main-color-dark);
+            }
+            &-3 {
+                background-image: linear-gradient(to bottom right,$trd-color-light,$trd-color-dark);
+            }
+        }
+    }
+    &:hover &__side--front{
+        transform: rotateY(-180deg);
+
+    }
+    &:hover &__side--back{
+        transform: rotateY(0deg);
+        
+    }
+}
+.project-title{
+    text-align: center;
+    font-size: 4rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: white;
+    padding: 0 1.2rem 1rem 1.2rem;
+    margin-bottom: 4rem;
+}
+.card--image{
+    width: 50rem;
+    height: 100%;
+}
+//end of projects
+
+.section-contact{
+    padding: 15rem 0;
+    background-image: linear-gradient(to bottom right, $main-color-light, $main-color-dark);
+}
+.margin{
+    margin: 0 15rem;
+}
+.contact-container{
+    background-image: linear-gradient( 105deg,rgba(white,.9) 0%,
+                                            rgba(white,.9) 50%,
+                                            transparent 50%),
+                    url(../img/section-contact-image.jpg);
+    background-size: cover;
+    border-radius: 3px;
+    box-shadow: 0 1.5 4rem rgba($color-black, .2);
+    height: 50rem;
+
+    &__form{
+        width: 50%;
+        height: 100%;
+        padding: 6rem;
+        border: none;
+    }
+}
+.form{
+    &__group:not(:last-child){
+        margin-bottom: 2rem;
+
+    }
+    &__input{
+        color: inherit;
+        font-size: 1.5rem;
+        font-family: inherit;
+        padding: 1.5rem 2rem;
+        border-radius: 2px;
+        background-color: rgba($color: white, $alpha: .7);
+        border-bottom: 3px solid transparent;
+        border: none;
+        width: 90%;
+        display: block;
+        transition: all .3s;
+        &::-webkit-input-placeholder{
+            color: #777;
+        }
+        &:focus{
+            outline: none;
+            border-bottom: 3px solid $main-color;
+            box-shadow: 0 1rem 2rem rgba($color: #000000, $alpha: .1);
+            &:valid{
+                border-bottom: 3px solid $sec-color-light;
+            }
+        }
+    }
+    
+   
+    &__label{
+        display: block;
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-left: 2rem;
+        margin-top: .7rem;
+        transition: all .5s;
+    }
+    &__input:placeholder-shown + &__label{
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-4rem);
+    }
+
+    &__text{
+        display: block;
+        width: 90%;
+        padding: 1.5rem 2rem;
+        color: $main-color;
+    }
+}
+
+//footer:
+.footer{
+    display: flex;
+    width: 100%;
+    height: 7rem;
+    background-color: #333136;
+
+    &__text{
+        flex: 2;
+        padding: 2rem;
+        padding-left: 4rem;
+    }
+    &__buttons{
+        //border: 1px solid white;
+        flex: 1;
+        padding: 2rem;
+        margin-left: 30%;
+    }
+}
+footer div a img{
+    flex: 1;
+    height: 32px;
+    margin-right: 2rem;
+}
+
