@@ -37,6 +37,31 @@ $main-font-size: 1.6rem;
   border: 2px solid black;
 }
 
+//dark mode:
+.dark-mode {
+  filter: invert(1) hue-rotate(180deg);
+}
+.invert {
+  filter: invert(1) hue-rotate(180deg);
+}
+//dark mode button:
+#darkMode {
+  position: fixed;
+  left: 4rem;
+  bottom: 2rem;
+  z-index: 100;
+  border: none;
+  background-color: transparent;
+  color: black;
+  outline: none;
+}
+#darkMode:active {
+  outline: none;
+}
+.darkMode__logo {
+  width: 4rem;
+}
+
 /* MIXINS*/
 // MEDIA QUERY MANAGER
 /*

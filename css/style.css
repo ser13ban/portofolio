@@ -19,6 +19,28 @@ $main-color-light:  #7ed56f;
 .u-border {
   border: 2px solid black; }
 
+.dark-mode {
+  filter: invert(1) hue-rotate(180deg); }
+
+.invert {
+  filter: invert(1) hue-rotate(180deg); }
+
+#darkMode {
+  position: fixed;
+  left: 4rem;
+  bottom: 2rem;
+  z-index: 100;
+  border: none;
+  background-color: transparent;
+  color: black;
+  outline: none; }
+
+#darkMode:active {
+  outline: none; }
+
+.darkMode__logo {
+  width: 4rem; }
+
 /* MIXINS*/
 /*
 0 - 600px:      Phone
